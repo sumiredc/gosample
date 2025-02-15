@@ -1,10 +1,10 @@
 package repository
 
-import "sample/app/user/domain/entity"
+import "sample/user/domain/entity"
 
 type UserRepository interface {
-	List() ([]entity.User, error)
-	Get() (*entity.User, error)
+	List() []entity.User
+	Get() *entity.User
 	Save() error
 	Update(u *entity.User) error
 	Delete(u *entity.User) error

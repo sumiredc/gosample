@@ -1,9 +1,8 @@
-package user
+package usecase
 
 import (
-	"log"
-	"sample/app/user/domain/entity"
-	"sample/app/user/domain/repository"
+	"sample/user/domain/entity"
+	"sample/user/domain/repository"
 )
 
 type GetUserListUseCase struct {
@@ -17,11 +16,7 @@ func NewGetUserListUseCase(userRepository repository.UserRepository) *GetUserLis
 }
 
 func (u *GetUserListUseCase) Execute() ([]entity.User, error) {
-	users, err := u.userRepository.List()
-	if err != nil {
-		log.Printf("Failed UserRepository.List(): %v", err)
-		return users, err
-	}
+	users := u.userRepository.List()
 
 	return users, nil
 }
