@@ -3,9 +3,10 @@ package http
 import "github.com/labstack/echo"
 
 func SetupRoutes(e *echo.Echo) {
-	e.GET("/user", getUserList)
-	e.POST("/user", saveUser)
-	e.GET("/user/:id", getUser)
-	e.PUT("/user/:id", updateUser)
-	e.DELETE("/user/:id", deleteUser)
+	api := e.Group("/api")
+	api.GET("/user", getUserList)
+	api.POST("/user", saveUser)
+	api.GET("/user/:id", getUser)
+	api.PUT("/user/:id", updateUser)
+	api.DELETE("/user/:id", deleteUser)
 }
