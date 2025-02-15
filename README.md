@@ -3,9 +3,16 @@
 ## Application
 
 ### User
-
 - Clean Architecture
 - Domain-Driven Design
+
+### Architectures
+
+#### Http Handler
+Bind request params
+
+#### Usecase
+Business logics
 
 #### 🏃‍♂️ Run
 ```sh

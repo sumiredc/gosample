@@ -1,0 +1,28 @@
+services:
+  go:
+    build:
+      context: go
+    ports:
+      - 8080:8080
+    volumes:
+      - ./go:/app
+
+  mysql:
+    build:
+      context: mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql:/var/lib/mysql
+      - ./mysql/log:/var/log
+
+  migration:
+    build:
+      context: migration
+    volumes:
+      - ./migration:/app
+
+volumes:
+  mysql:
+
+
