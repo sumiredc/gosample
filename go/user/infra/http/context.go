@@ -7,14 +7,12 @@ import (
 	"gorm.io/gorm"
 )
 
-type contextKey string
+type contextKey int
 
 // NOTE: Context key names
-const (
-	userRepositoryKey contextKey = "UserRepository"
-)
+const userRepository contextKey = iota
 
 func buildRepositoriesToContext(c context.Context, r, w *gorm.DB) context.Context {
-	c = context.WithValue(c, userRepositoryKey, mysql.NewUserRepository(w, r))
+	c = context.WithValue(c, userRepository, mysql.NewUserRepository(w, r))
 	return c
 }
