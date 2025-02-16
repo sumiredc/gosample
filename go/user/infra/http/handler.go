@@ -2,16 +2,11 @@ package http
 
 import (
 	"net/http"
-	"sample/user/domain/entity"
 	"sample/user/domain/repository"
 	"sample/user/usecase"
 
 	"github.com/labstack/echo"
 )
-
-type ErrorResponse struct {
-	message string
-}
 
 func deleteUser(c echo.Context) error {
 	return nil
@@ -25,18 +20,13 @@ func getUserList(c echo.Context) error {
 	if err != nil {
 		return c.JSON(
 			http.StatusInternalServerError,
-			ErrorResponse{message: http.StatusText(http.StatusInternalServerError)},
+			errorResponse{Message: http.StatusText(http.StatusInternalServerError)},
 		)
 	}
 
-	type Response struct {
-		message string
-		users   []entity.User
-	}
-
-	return c.JSON(http.StatusOK, Response{
-		message: http.StatusText(http.StatusOK),
-		users:   users,
+	return c.JSON(http.StatusOK, getUserListResponse{
+		Message: http.StatusText(http.StatusOK),
+		Users:   users,
 	})
 }
 

@@ -20,8 +20,8 @@ func NewUserRepository(w, r *gorm.DB) *UserRepositoryImpl {
 }
 
 func (u *UserRepositoryImpl) List() []entity.User {
-	var models []model.User
-	var users []entity.User
+	models := make([]model.User, 0)
+	users := make([]entity.User, 0)
 
 	u.Reader.Model(&model.User{}).Find(&models)
 
