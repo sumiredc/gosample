@@ -15,5 +15,7 @@ func main() {
 	// Routes
 	http.SetupRoutes(e)
 
+	// Error Handler
+
 	e.Start(":8080")
 }
