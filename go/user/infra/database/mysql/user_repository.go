@@ -33,7 +33,13 @@ func (repo *UserRepositoryImpl) List() ([]entity.User, error) {
 	}
 
 	for _, m := range models {
-		users = append(users, entity.NewUser(m.ID, m.Name, m.Email))
+		userID, err := valueobject.ParseUserID(m.ID)
+
+		if err != nil {
+			return nil, errors.Join(errkit.ErrInternalServer, err)
+		}
+
+		users = append(users, entity.NewUser(*userID, m.Name, m.Email))
 	}
 
 	return users, nil
@@ -52,7 +58,7 @@ func (repo *UserRepositoryImpl) Get(id valueobject.UserID) (*entity.User, error)
 		return nil, errors.Join(errkit.ErrDatabaseConnection, err)
 	}
 
-	user := entity.NewUser(m.ID, m.Name, m.Email)
+	user := entity.NewUser(id, m.Name, m.Email)
 
 	return &user, nil
 }
@@ -64,7 +70,13 @@ func (repo *UserRepositoryImpl) Create(m *model.User) (*entity.User, error) {
 		return nil, errors.Join(errkit.ErrDatabaseConnection, err)
 	}
 
-	user := entity.NewUser(m.ID, m.Name, m.Email)
+	userID, err := valueobject.ParseUserID(m.ID)
+
+	if err != nil {
+		return nil, errors.Join(errkit.ErrInternalServer, err)
+	}
+
+	user := entity.NewUser(*userID, m.Name, m.Email)
 
 	return &user, nil
 }

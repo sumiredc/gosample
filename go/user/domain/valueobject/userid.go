@@ -1,6 +1,10 @@
 package valueobject
 
-import "github.com/oklog/ulid/v2"
+import (
+	"encoding/json"
+
+	"github.com/oklog/ulid/v2"
+)
 
 type UserID struct {
 	v ulid.ULID
@@ -26,4 +30,8 @@ func ParseUserID(v string) (*UserID, error) {
 
 func (u *UserID) Value() *ulid.ULID {
 	return &u.v
+}
+
+func (u *UserID) MarchalJson() ([]byte, error) {
+	return json.Marshal(u.Value())
 }
