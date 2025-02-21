@@ -1,21 +1,20 @@
 package usecase
 
-type UpdateUserInput struct {
-	UserID string `json:"user_id"`
-	Name   string `json:"name"`
-	Email  string `json:"email"`
-}
+import (
+	"sample/user/domain/repository"
+	"sample/user/usecase/dto"
+)
 
 type UpdateUserUseCase struct {
-	Input *UpdateUserInput
+	userRepository repository.UserRepository
 }
 
-func NewUpdateUserUseCase(input *UpdateUserInput) *UpdateUserUseCase {
+func NewUpdateUserUseCase(userRepository repository.UserRepository) *UpdateUserUseCase {
 	return &UpdateUserUseCase{
-		Input: input,
+		userRepository: userRepository,
 	}
 }
 
-func (u *UpdateUserUseCase) Execute() {
-
+func (u *UpdateUserUseCase) Execute(i dto.UpdateUserInput) (*dto.UpdateUserOutput, error) {
+	return nil, nil
 }

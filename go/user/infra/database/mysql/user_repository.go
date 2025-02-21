@@ -1,8 +1,11 @@
 package mysql
 
 import (
+	"errors"
 	"sample/user/domain/entity"
+	"sample/user/domain/errkit"
 	"sample/user/domain/model"
+	"sample/user/domain/valueobject"
 
 	"gorm.io/gorm"
 )
@@ -19,31 +22,69 @@ func NewUserRepository(w, r *gorm.DB) *UserRepositoryImpl {
 	}
 }
 
-func (u *UserRepositoryImpl) List() []entity.User {
+func (repo *UserRepositoryImpl) List() ([]entity.User, error) {
 	models := make([]model.User, 0)
 	users := make([]entity.User, 0)
 
-	u.Reader.Model(&model.User{}).Find(&models)
+	err := repo.Reader.Model(&model.User{}).Find(&models).Error
 
-	for _, model := range models {
-		users = append(users, entity.NewUser(model.ID, model.Name, model.Email))
+	if err != nil {
+		return nil, errors.Join(errkit.ErrDatabaseConnection, err)
 	}
 
-	return users
+	for _, m := range models {
+		users = append(users, entity.NewUser(m.ID, m.Name, m.Email))
+	}
+
+	return users, nil
 }
 
-func (*UserRepositoryImpl) Get() *entity.User {
+func (repo *UserRepositoryImpl) Get(id valueobject.UserID) (*entity.User, error) {
+	var m model.User
+
+	err := repo.Reader.First(&m, id.Value().String()).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, errors.Join(errkit.ErrNotFound, err)
+	}
+
+	if err != nil {
+		return nil, errors.Join(errkit.ErrDatabaseConnection, err)
+	}
+
+	user := entity.NewUser(m.ID, m.Name, m.Email)
+
+	return &user, nil
+}
+
+func (repo *UserRepositoryImpl) Create(m *model.User) (*entity.User, error) {
+	err := repo.Writer.Create(m).Error
+
+	if err != nil {
+		return nil, errors.Join(errkit.ErrDatabaseConnection, err)
+	}
+
+	user := entity.NewUser(m.ID, m.Name, m.Email)
+
+	return &user, nil
+}
+
+func (repo *UserRepositoryImpl) Update(m *model.User) error {
+	err := repo.Writer.Save(m).Error
+
+	if err != nil {
+		return errors.Join(errkit.ErrDatabaseConnection, err)
+	}
+
 	return nil
 }
 
-func (*UserRepositoryImpl) Save() error {
-	return nil
-}
+func (repo *UserRepositoryImpl) Delete(id valueobject.UserID) error {
+	err := repo.Writer.Delete(&model.User{}, id.Value().String()).Error
 
-func (*UserRepositoryImpl) Update(u *entity.User) error {
-	return nil
-}
+	if err != nil {
+		return errors.Join(errkit.ErrDatabaseConnection, err)
+	}
 
-func (*UserRepositoryImpl) Delete(u *entity.User) error {
 	return nil
 }

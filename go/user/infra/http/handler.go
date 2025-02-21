@@ -3,59 +3,94 @@ package http
 import (
 	"net/http"
 	"sample/user/domain/repository"
-	"sample/user/usecase"
+	"sample/user/iadapter/controller"
+	"sample/user/iadapter/request"
 
+	"github.com/go-playground/validator"
 	"github.com/labstack/echo"
 )
 
-func deleteUser(c echo.Context) error {
-	return nil
-}
-
 func getUserList(c echo.Context) error {
-	userRepository := c.Request().Context().Value(userRepository).(repository.UserRepository)
-	usecase := usecase.NewGetUserListUseCase(userRepository)
-	users, err := usecase.Execute()
+	req := &request.GetUserListRequest{}
 
-	if err != nil {
-		return c.JSON(
-			http.StatusInternalServerError,
-			errorResponse{Message: http.StatusText(http.StatusInternalServerError)},
-		)
+	if err := c.Bind(req); err != nil {
+		return jsonResponse(c, http.StatusBadRequest, nil)
 	}
 
-	return c.JSON(http.StatusOK, getUserListResponse{
-		Message: http.StatusText(http.StatusOK),
-		Users:   users,
-	})
+	ctx := c.Request().Context()
+	userRepo := ctx.Value(userRepository).(repository.UserRepository)
+	con := controller.NewGetUserListController(req, userRepo)
+
+	code, response := con.Run()
+
+	return jsonResponse(c, code, response)
 }
 
 func getUser(c echo.Context) error {
-	return nil
-}
+	req := &request.GetUserRequest{}
 
-func saveUser(c echo.Context) error {
-	input := &usecase.SaveUserInput{}
-	if err := c.Bind(input); err != nil {
-		return err
+	if err := c.Bind(req); err != nil {
+		return jsonResponse(c, http.StatusBadRequest, nil)
 	}
 
-	usecase := usecase.NewSaveUserUseCase(input)
-	usecase.Execute()
+	userId := c.Param("UserId")
+	ctx := c.Request().Context()
+	userRepo := ctx.Value(userRepository).(repository.UserRepository)
+	con := controller.NewGetUserController(req, userRepo)
 
-	return nil
+	code, response := con.Run(userId)
+
+	return jsonResponse(c, code, response)
+}
+
+func createUser(c echo.Context) error {
+	req := &request.CreateUserRequest{}
+
+	if err := c.Bind(req); err != nil {
+		return jsonResponse(c, http.StatusBadRequest, nil)
+	}
+
+	ctx := c.Request().Context()
+	userRepo := ctx.Value(userRepository).(repository.UserRepository)
+	vali := ctx.Value(requestValidator).(validator.Validate)
+	con := controller.NewCreateUserController(&vali, req, userRepo)
+
+	code, response := con.Run()
+
+	return jsonResponse(c, code, response)
 }
 
 func updateUser(c echo.Context) error {
-	input := &usecase.UpdateUserInput{}
-	if err := c.Bind(input); err != nil {
-		return err
+	req := &request.UpdateUserRequest{}
+
+	if err := c.Bind(req); err != nil {
+		return jsonResponse(c, http.StatusBadRequest, nil)
 	}
 
-	input.UserID = c.Param("UserID")
+	userId := c.Param("UserId")
+	ctx := c.Request().Context()
+	userRepo := ctx.Value(userRepository).(repository.UserRepository)
+	vali := ctx.Value(requestValidator).(validator.Validate)
+	con := controller.NewUpdateUserController(&vali, req, userRepo)
 
-	usecase := usecase.NewUpdateUserUseCase(input)
-	usecase.Execute()
+	code, response := con.Run(userId)
 
-	return nil
+	return jsonResponse(c, code, response)
+}
+
+func deleteUser(c echo.Context) error {
+	req := &request.DeleteUserRequest{}
+
+	if err := c.Bind(req); err != nil {
+		return jsonResponse(c, http.StatusBadRequest, nil)
+	}
+
+	userId := c.Param("UserId")
+	ctx := c.Request().Context()
+	userRepo := ctx.Value(userRepository).(repository.UserRepository)
+	con := controller.NewDeleteUserController(req, userRepo)
+
+	code, response := con.Run(userId)
+
+	return jsonResponse(c, code, response)
 }

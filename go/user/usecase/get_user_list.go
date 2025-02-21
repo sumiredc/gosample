@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"sample/user/domain/entity"
 	"sample/user/domain/repository"
+	"sample/user/usecase/dto"
 )
 
 type GetUserListUseCase struct {
@@ -15,8 +15,13 @@ func NewGetUserListUseCase(userRepository repository.UserRepository) *GetUserLis
 	}
 }
 
-func (u *GetUserListUseCase) Execute() ([]entity.User, error) {
-	users := u.userRepository.List()
+func (u *GetUserListUseCase) Execute(i dto.GetUserListInput) (*dto.GetUserListOutput, error) {
+	users, err := u.userRepository.List()
 
-	return users, nil
+	if err != nil {
+		return nil, err
+	}
+
+	o := dto.NewGetUserListOutput(users)
+	return o, nil
 }
