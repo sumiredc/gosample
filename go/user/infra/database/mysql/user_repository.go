@@ -48,7 +48,7 @@ func (repo *UserRepositoryImpl) List() ([]entity.User, error) {
 func (repo *UserRepositoryImpl) Get(id valueobject.UserID) (*entity.User, error) {
 	var m model.User
 
-	err := repo.Reader.First(&m, id.Value().String()).Error
+	err := repo.Reader.First(&m, "id = ?", id.Value().String()).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, errors.Join(errkit.ErrNotFound, err)
@@ -92,7 +92,7 @@ func (repo *UserRepositoryImpl) Update(m *model.User) error {
 }
 
 func (repo *UserRepositoryImpl) Delete(id valueobject.UserID) error {
-	err := repo.Writer.Delete(&model.User{}, id.Value().String()).Error
+	err := repo.Writer.Delete(&model.User{}, "id = ?", id.Value().String()).Error
 
 	if err != nil {
 		return errors.Join(errkit.ErrDatabaseConnection, err)

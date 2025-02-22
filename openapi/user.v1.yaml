@@ -27,24 +27,6 @@ paths:
       responses:
         "201":
           description: User created
-    put:
-      summary: Update a user
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                userID:
-                  type: string
-                name:
-                  type: string
-                email:
-                  type: string
-      responses:
-        "200":
-          description: User updated
   /user/{userID}:
     get:
       summary: Get a user by ID
@@ -56,7 +38,29 @@ paths:
             type: string
       responses:
         "200":
-          description: Successful response
+          description: Successful response◊
+    put:
+      summary: Update a user by ID
+      parameters:
+        - name: userID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+      responses:
+        "200":
+          description: User updated
     delete:
       summary: Delete a user by ID
       parameters:

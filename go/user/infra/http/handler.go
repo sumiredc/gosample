@@ -34,7 +34,7 @@ func getUser(c echo.Context) error {
 		return jsonResponse(c, http.StatusBadRequest, nil)
 	}
 
-	userId := c.Param("UserId")
+	userId := c.Param("user_id")
 	ctx := c.Request().Context()
 	userRepo := ctx.Value(context.UserRepository).(repository.UserRepository)
 	con := controller.NewGetUserController(req, userRepo)
@@ -68,7 +68,7 @@ func updateUser(c echo.Context) error {
 		return jsonResponse(c, http.StatusBadRequest, nil)
 	}
 
-	userId := c.Param("UserId")
+	userId := c.Param("user_id")
 	ctx := c.Request().Context()
 	userRepo := ctx.Value(context.UserRepository).(repository.UserRepository)
 	vali := ctx.Value(context.Validator).(*validator.Validate)

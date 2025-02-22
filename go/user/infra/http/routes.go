@@ -12,9 +12,9 @@ func SetupRoutes(e *echo.Echo) {
 	apiV1 := api.Group("/v1")
 	apiV1.GET("/user", getUserList)
 	apiV1.POST("/user", createUser)
-	apiV1.GET("/user/:id", getUser)
-	apiV1.PUT("/user/:id", updateUser)
-	apiV1.DELETE("/user/:id", deleteUser)
+	apiV1.GET("/user/:user_id", getUser)
+	apiV1.PUT("/user/:user_id", updateUser)
+	apiV1.DELETE("/user/:user_id", deleteUser)
 
 	e.HTTPErrorHandler = jsonErrorHandler
 }
