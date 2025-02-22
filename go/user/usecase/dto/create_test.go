@@ -14,7 +14,7 @@ func TestCreateUserInput(t *testing.T) {
 		i := NewCreateUserInput(name, email)
 
 		if i.Name() != name {
-			t.Errorf("Name mismatch: expected %q, but got %q]", name, i.Name())
+			t.Errorf("Name mismatch: expected %q, but got %q", name, i.Name())
 		}
 
 		if i.Email() != email {
