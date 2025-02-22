@@ -22,16 +22,16 @@ func NewGetUserListController(r *request.GetUserListRequest, ur repository.UserR
 	}
 }
 
-func (c *GetUserListController) Run() (response.StatusCode, response.Response) {
+func (c *GetUserListController) Run() (response.StatusCode, response.Response, error) {
 	i := dto.NewGetUserListInput()
 	u := usecase.NewGetUserListUseCase(c.userRepository)
 	o, err := u.Execute(*i)
 
 	if err != nil {
-		return http.StatusInternalServerError, nil
+		return http.StatusInternalServerError, nil, err
 	}
 
 	p := presenter.New()
 
-	return http.StatusOK, p.UserList(o.Users())
+	return http.StatusOK, p.UserList(o.Users()), nil
 }

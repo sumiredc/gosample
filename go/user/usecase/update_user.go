@@ -20,13 +20,13 @@ func NewUpdateUserUseCase(userRepository repository.UserRepository) *UpdateUserU
 }
 
 func (u *UpdateUserUseCase) Execute(i dto.UpdateUserInput) (*dto.UpdateUserOutput, error) {
-	userId, err := valueobject.ParseUserID(i.UserId())
+	userID, err := valueobject.ParseUserID(i.UserId())
 
 	if err != nil {
 		return nil, errors.Join(errkit.ErrBadRequest, err)
 	}
 
-	m := model.NewUser(*userId, i.Name(), i.Email())
+	m := model.NewUser(*userID, i.Name(), i.Email())
 
 	if err := u.userRepository.Update(m); err != nil {
 		return nil, err

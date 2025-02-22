@@ -25,18 +25,18 @@ func NewUpdateUserController(v *validator.Validate, r *request.UpdateUserRequest
 	}
 }
 
-func (c *UpdateUserController) Run(userId string) (response.StatusCode, response.Response) {
+func (c *UpdateUserController) Run(userID string) (response.StatusCode, response.Response, error) {
 	if err := c.validator.Struct(c.request); err != nil {
-		return http.StatusUnprocessableEntity, nil
+		return http.StatusUnprocessableEntity, nil, err
 	}
 
-	i := dto.NewUpdateUserInput(userId, c.request.Name, c.request.Email)
+	i := dto.NewUpdateUserInput(userID, c.request.Name, c.request.Email)
 	u := usecase.NewUpdateUserUseCase(c.userRepository)
 	_, err := u.Execute(*i)
 
 	if err != nil {
-		return http.StatusInternalServerError, nil
+		return http.StatusInternalServerError, nil, err
 	}
 
-	return http.StatusOK, nil
+	return http.StatusOK, nil, nil
 }

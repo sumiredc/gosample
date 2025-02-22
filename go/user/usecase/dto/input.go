@@ -8,17 +8,17 @@ func NewGetUserListInput() *GetUserListInput {
 }
 
 type GetUserInput struct {
-	userId string
+	userID string
 }
 
-func NewGetUserInput(userId string) *GetUserInput {
+func NewGetUserInput(userID string) *GetUserInput {
 	return &GetUserInput{
-		userId: userId,
+		userID: userID,
 	}
 }
 
 func (i *GetUserInput) UserId() string {
-	return i.userId
+	return i.userID
 }
 
 type CreateUserInput struct {
@@ -42,21 +42,21 @@ func (i *CreateUserInput) Email() string {
 }
 
 type UpdateUserInput struct {
-	userId string
+	userID string
 	name   string
 	email  string
 }
 
-func NewUpdateUserInput(userId, name, email string) *UpdateUserInput {
+func NewUpdateUserInput(userID, name, email string) *UpdateUserInput {
 	return &UpdateUserInput{
-		userId: userId,
+		userID: userID,
 		name:   name,
 		email:  email,
 	}
 }
 
 func (i *UpdateUserInput) UserId() string {
-	return i.userId
+	return i.userID
 }
 
 func (i *UpdateUserInput) Name() string {
@@ -68,15 +68,15 @@ func (i *UpdateUserInput) Email() string {
 }
 
 type DeleteUserInput struct {
-	userId string
+	userID string
 }
 
-func NewDeleteUserInput(userId string) *DeleteUserInput {
+func NewDeleteUserInput(userID string) *DeleteUserInput {
 	return &DeleteUserInput{
-		userId: userId,
+		userID: userID,
 	}
 }
 
 func (i *DeleteUserInput) UserId() string {
-	return i.userId
+	return i.userID
 }

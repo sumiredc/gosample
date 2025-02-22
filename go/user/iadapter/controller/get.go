@@ -24,20 +24,20 @@ func NewGetUserController(r *request.GetUserRequest, ur repository.UserRepositor
 	}
 }
 
-func (c *GetUserController) Run(userId string) (response.StatusCode, response.Response) {
-	i := dto.NewGetUserInput(userId)
+func (c *GetUserController) Run(userID string) (response.StatusCode, response.Response, error) {
+	i := dto.NewGetUserInput(userID)
 	u := usecase.NewGetUserUseCase(c.userRepository)
 	o, err := u.Execute(*i)
 
 	if errors.Is(err, errkit.ErrNotFound) {
-		return http.StatusNotFound, nil
+		return http.StatusNotFound, nil, err
 	}
 
 	if err != nil {
-		return http.StatusInternalServerError, nil
+		return http.StatusInternalServerError, nil, err
 	}
 
 	p := presenter.New()
 
-	return http.StatusOK, p.User(o.User())
+	return http.StatusOK, p.User(o.User()), nil
 }

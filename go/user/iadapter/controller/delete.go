@@ -21,14 +21,14 @@ func NewDeleteUserController(r *request.DeleteUserRequest, ur repository.UserRep
 	}
 }
 
-func (c *DeleteUserController) Run(userId string) (response.StatusCode, response.Response) {
-	i := dto.NewDeleteUserInput(userId)
+func (c *DeleteUserController) Run(userID string) (response.StatusCode, response.Response, error) {
+	i := dto.NewDeleteUserInput(userID)
 	u := usecase.NewDeleteUserUseCase(c.userRepository)
 	_, err := u.Execute(*i)
 
 	if err != nil {
-		return http.StatusInternalServerError, nil
+		return http.StatusInternalServerError, nil, err
 	}
 
-	return http.StatusOK, nil
+	return http.StatusOK, nil, nil
 }

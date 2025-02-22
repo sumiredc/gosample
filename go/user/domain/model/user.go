@@ -10,7 +10,7 @@ type User struct {
 
 func NewUser(id valueobject.UserID, name, email string) *User {
 	return &User{
-		ID:    id.Value().String(),
+		ID:    id.String(),
 		Name:  name,
 		Email: email,
 	}
