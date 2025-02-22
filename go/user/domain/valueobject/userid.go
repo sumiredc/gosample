@@ -32,6 +32,6 @@ func (u *UserID) Value() *ulid.ULID {
 	return &u.v
 }
 
-func (u *UserID) MarchalJson() ([]byte, error) {
-	return json.Marshal(u.Value())
+func (u *UserID) MarshalJson() ([]byte, error) {
+	return json.Marshal(u.Value().String())
 }

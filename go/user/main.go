@@ -2,6 +2,7 @@ package main
 
 import (
 	"sample/user/infra/http"
+	"sample/user/infra/http/middleware"
 
 	"github.com/labstack/echo"
 )
@@ -10,7 +11,7 @@ func main() {
 	e := echo.New()
 
 	// Middleware
-	http.UseMiddlewares(e)
+	middleware.Use(e)
 
 	// Routes
 	http.SetupRoutes(e)
