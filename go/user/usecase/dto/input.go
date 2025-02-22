@@ -22,31 +22,49 @@ func (i *GetUserInput) UserId() string {
 }
 
 type CreateUserInput struct {
-	Name  string
-	Email string
+	name  string
+	email string
 }
 
 func NewCreateUserInput(name, email string) *CreateUserInput {
 	return &CreateUserInput{
-		Name:  name,
-		Email: email,
+		name:  name,
+		email: email,
 	}
+}
+
+func (i *CreateUserInput) Name() string {
+	return i.name
+}
+
+func (i *CreateUserInput) Email() string {
+	return i.email
 }
 
 type UpdateUserInput struct {
 	userId string
-	Name   string
-	Email  string
+	name   string
+	email  string
 }
 
 func NewUpdateUserInput(userId, name, email string) *UpdateUserInput {
 	return &UpdateUserInput{
 		userId: userId,
+		name:   name,
+		email:  email,
 	}
 }
 
 func (i *UpdateUserInput) UserId() string {
 	return i.userId
+}
+
+func (i *UpdateUserInput) Name() string {
+	return i.name
+}
+
+func (i *UpdateUserInput) Email() string {
+	return i.email
 }
 
 type DeleteUserInput struct {

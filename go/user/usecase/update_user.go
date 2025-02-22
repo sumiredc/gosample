@@ -1,7 +1,11 @@
 package usecase
 
 import (
+	"errors"
+	"sample/user/domain/errkit"
+	"sample/user/domain/model"
 	"sample/user/domain/repository"
+	"sample/user/domain/valueobject"
 	"sample/user/usecase/dto"
 )
 
@@ -16,5 +20,19 @@ func NewUpdateUserUseCase(userRepository repository.UserRepository) *UpdateUserU
 }
 
 func (u *UpdateUserUseCase) Execute(i dto.UpdateUserInput) (*dto.UpdateUserOutput, error) {
-	return nil, nil
+	userId, err := valueobject.ParseUserID(i.UserId())
+
+	if err != nil {
+		return nil, errors.Join(errkit.ErrBadRequest, err)
+	}
+
+	m := model.NewUser(*userId, i.Name(), i.Email())
+
+	if err := u.userRepository.Update(m); err != nil {
+		return nil, err
+	}
+
+	o := dto.NewUpdateUserOutput()
+
+	return o, nil
 }
