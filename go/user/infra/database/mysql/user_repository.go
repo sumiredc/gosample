@@ -92,10 +92,14 @@ func (repo *UserRepositoryImpl) Update(m *model.User) error {
 }
 
 func (repo *UserRepositoryImpl) Delete(id valueobject.UserID) error {
-	err := repo.Writer.Delete(&model.User{}, "id = ?", id.Value().String()).Error
+	res := repo.Writer.Delete(&model.User{}, "id = ?", id.Value().String())
 
-	if err != nil {
-		return errors.Join(errkit.ErrDatabaseConnection, err)
+	if res.Error != nil {
+		return errors.Join(errkit.ErrDatabaseConnection, res.Error)
+	}
+
+	if res.RowsAffected == 0 {
+		return errkit.ErrNotFound
 	}
 
 	return nil

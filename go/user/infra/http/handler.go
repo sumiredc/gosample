@@ -1,7 +1,6 @@
 package http
 
 import (
-	"fmt"
 	"net/http"
 	"sample/user/domain/context"
 	"sample/user/domain/repository"
@@ -96,9 +95,7 @@ func deleteUser(c echo.Context) error {
 	userRepo := ctx.Value(context.UserRepository).(repository.UserRepository)
 	con := controller.NewDeleteUserController(req, userRepo)
 
-	code, response, err := con.Run(userID)
-
-	fmt.Printf("err: %+v", err)
+	code, response, _ := con.Run(userID)
 
 	return jsonResponse(c, code, response)
 }
