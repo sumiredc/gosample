@@ -53,8 +53,8 @@ func createUser(c echo.Context) error {
 
 	ctx := c.Request().Context()
 	userRepo := ctx.Value(context.UserRepository).(repository.UserRepository)
-	vali := ctx.Value(context.Validator).(validator.Validate)
-	con := controller.NewCreateUserController(&vali, req, userRepo)
+	vali := ctx.Value(context.Validator).(*validator.Validate)
+	con := controller.NewCreateUserController(vali, req, userRepo)
 
 	code, response := con.Run()
 
@@ -71,8 +71,8 @@ func updateUser(c echo.Context) error {
 	userId := c.Param("UserId")
 	ctx := c.Request().Context()
 	userRepo := ctx.Value(context.UserRepository).(repository.UserRepository)
-	vali := ctx.Value(context.Validator).(validator.Validate)
-	con := controller.NewUpdateUserController(&vali, req, userRepo)
+	vali := ctx.Value(context.Validator).(*validator.Validate)
+	con := controller.NewUpdateUserController(vali, req, userRepo)
 
 	code, response := con.Run(userId)
 
