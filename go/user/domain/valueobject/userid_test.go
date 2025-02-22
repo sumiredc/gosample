@@ -1,6 +1,7 @@
 package valueobject
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/oklog/ulid/v2"
@@ -39,20 +40,31 @@ func TestValue(t *testing.T) {
 	})
 }
 
-// func TestMarshalJson(t *testing.T) {
-// 	t.Run("Marchal to JSON from UserID", func(t *testing.T) {
-// 		expected := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
-// 		userID, _ := ParseUserID(expected)
+func TestString(t *testing.T) {
+	t.Run("String to UserID", func(t *testing.T) {
+		expected := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+		userID, err := ParseUserID(expected)
 
-// 		type A struct {
-// 			UserID UserID `json:"user_id"`
-// 		}
+		if err != nil || userID.String() != expected {
+			t.Errorf("failed to convert to UserID from ULID [expected: %s, UserID: %v, err: %v]", expected, userID, err)
+		}
+	})
+}
 
-// 		e := A{UserID: *userID}
+func TestMarshalJSON(t *testing.T) {
+	t.Run("Marchal to JSON from UserID", func(t *testing.T) {
+		id := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+		expected := `"` + id + `"`
+		userID, _ := ParseUserID(id)
 
-// 		v, err := json.Marshal(e)
-// 		if err != nil || fmt.Sprint(string(v)) != expected {
-// 			t.Errorf("failed to convert to JSON fron UserID [expected: %s, UserID: %v, err: %v]", expected, userID, err)
-// 		}
-// 	})
-// }
+		v, err := json.Marshal(userID)
+
+		if err != nil {
+			t.Errorf("failed to convert to JSON fron UserID [err: %v]", err)
+		}
+
+		if string(v) != expected {
+			t.Errorf("failed to convert to JSON fron UserID [expected: %s, UserID: %v]", expected, string(v))
+		}
+	})
+}

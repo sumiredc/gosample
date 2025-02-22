@@ -3,7 +3,7 @@ package http
 import (
 	"net/http"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func SetupRoutes(e *echo.Echo) {

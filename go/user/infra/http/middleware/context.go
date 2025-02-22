@@ -6,7 +6,7 @@ import (
 	"sample/user/infra/database/mysql"
 
 	"github.com/go-playground/validator"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func useContext(next echo.HandlerFunc) echo.HandlerFunc {

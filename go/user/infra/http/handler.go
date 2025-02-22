@@ -8,7 +8,7 @@ import (
 	"sample/user/iadapter/request"
 
 	"github.com/go-playground/validator"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func getUserList(c echo.Context) error {

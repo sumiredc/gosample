@@ -4,7 +4,7 @@ import (
 	"sample/user/infra/http"
 	"sample/user/infra/http/middleware"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func main() {
