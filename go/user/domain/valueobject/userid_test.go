@@ -27,6 +27,15 @@ func TestParseUserID(t *testing.T) {
 			t.Errorf("failed to parse ulid to UserID [expected: %s, err: %v]", expected, err)
 		}
 	})
+
+	t.Run("Failed to parse to UserID value object", func(t *testing.T) {
+		value := "d22bea62-00a2-4887-b06b-6ddef9f31499"
+		userID, err := ParseUserID(value)
+
+		if err == nil {
+			t.Errorf("failed to uild check [userID: %s, value: %s]", userID.String(), value)
+		}
+	})
 }
 
 func TestValue(t *testing.T) {
@@ -34,8 +43,12 @@ func TestValue(t *testing.T) {
 		expected := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 		userID, err := ParseUserID(expected)
 
-		if err != nil || userID.Value().String() != expected {
-			t.Errorf("failed to convert to UserID from ULID [expected: %s, UserID: %v, err: %v]", expected, userID, err)
+		if err != nil {
+			t.Errorf("failed to Parse UserID [err: %v]", err)
+		}
+
+		if userID.Value().String() != expected {
+			t.Errorf("failed to convert to UserID from ULID [expected: %s, UserID: %v", expected, userID)
 		}
 	})
 }
@@ -45,8 +58,12 @@ func TestString(t *testing.T) {
 		expected := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 		userID, err := ParseUserID(expected)
 
-		if err != nil || userID.String() != expected {
-			t.Errorf("failed to convert to UserID from ULID [expected: %s, UserID: %v, err: %v]", expected, userID, err)
+		if err != nil {
+			t.Errorf("failed to Parse UserID [err: %v]", err)
+		}
+
+		if userID.String() != expected {
+			t.Errorf("failed to convert to UserID from ULID [expected: %s, UserID: %v]", expected, userID)
 		}
 	})
 }
