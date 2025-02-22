@@ -7,69 +7,46 @@ import (
 	"github.com/oklog/ulid/v2"
 )
 
-func TestNewUserID(t *testing.T) {
-	t.Run("Make to UserID value object", func(t *testing.T) {
+func TestUserID(t *testing.T) {
+	t.Run("should initialize UserID with expected values", func(t *testing.T) {
 		userID := NewUserID()
-		_, err := ulid.Parse(userID.Value().String())
+		_, err := ulid.Parse(userID.String())
 
 		if err != nil {
-			t.Errorf("UserID is not ulid [UserID: %v, err: %v]", userID.Value().String(), err)
-		}
-	})
-}
-
-func TestParseUserID(t *testing.T) {
-	t.Run("Parse to UserID value object", func(t *testing.T) {
-		expected := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
-		_, err := ParseUserID(expected)
-
-		if err != nil {
-			t.Errorf("failed to parse ulid to UserID [expected: %s, err: %v]", expected, err)
+			t.Errorf("failed to parse UserID as ULID: value %q, error %v", userID.String(), err)
 		}
 	})
 
-	t.Run("Failed to parse to UserID value object", func(t *testing.T) {
-		value := "d22bea62-00a2-4887-b06b-6ddef9f31499"
-		userID, err := ParseUserID(value)
-
-		if err == nil {
-			t.Errorf("failed to uild check [userID: %s, value: %s]", userID.String(), value)
-		}
-	})
-}
-
-func TestValue(t *testing.T) {
-	t.Run("Value to UserID", func(t *testing.T) {
+	t.Run("should parse UserID as ULID", func(t *testing.T) {
 		expected := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 		userID, err := ParseUserID(expected)
 
 		if err != nil {
-			t.Errorf("failed to Parse UserID [err: %v]", err)
+			t.Errorf("failed to parse UserID as ULID: value %q, err %v", expected, err)
 		}
 
 		if userID.Value().String() != expected {
-			t.Errorf("failed to convert to UserID from ULID [expected: %s, UserID: %v", expected, userID)
-		}
-	})
-}
-
-func TestString(t *testing.T) {
-	t.Run("String to UserID", func(t *testing.T) {
-		expected := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
-		userID, err := ParseUserID(expected)
-
-		if err != nil {
-			t.Errorf("failed to Parse UserID [err: %v]", err)
+			t.Errorf("UserID.Value() missmatch: expected %q, but got %q", expected, userID.Value())
 		}
 
 		if userID.String() != expected {
-			t.Errorf("failed to convert to UserID from ULID [expected: %s, UserID: %v]", expected, userID)
+			t.Errorf("UserID.String() missmatch: expected %q, but got %q", expected, userID.String())
 		}
 	})
-}
 
-func TestMarshalJSON(t *testing.T) {
-	t.Run("Marchal to JSON from UserID", func(t *testing.T) {
+	testCases := [3]string{"d22bea62-00a2-4887-b06b-6ddef9f31499", "1", "string"}
+
+	for _, c := range testCases {
+		t.Run("should return an error when UserID is not a valid ULID", func(t *testing.T) {
+			_, err := ParseUserID(c)
+
+			if err == nil {
+				t.Errorf("expected an error when parsing invalid UserID, but got none: value %q", c)
+			}
+		})
+	}
+
+	t.Run("should convert JSON as UserID", func(t *testing.T) {
 		id := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 		expected := `"` + id + `"`
 		userID, _ := ParseUserID(id)
@@ -77,11 +54,11 @@ func TestMarshalJSON(t *testing.T) {
 		v, err := json.Marshal(userID)
 
 		if err != nil {
-			t.Errorf("failed to convert to JSON fron UserID [err: %v]", err)
+			t.Errorf("failed to convert JSON as UserID: err %v", err)
 		}
 
 		if string(v) != expected {
-			t.Errorf("failed to convert to JSON fron UserID [expected: %s, UserID: %v]", expected, string(v))
+			t.Errorf("failed to convert JSON as UserID: expected %q, but got %q", expected, string(v))
 		}
 	})
 }

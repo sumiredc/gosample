@@ -10,7 +10,7 @@ func TestCreateUserInput(t *testing.T) {
 	name := "test name"
 	email := "test@test.xxx"
 
-	t.Run("should initialize `CreateUserInput` with expected values", func(t *testing.T) {
+	t.Run("should initialize CreateUserInput with expected values", func(t *testing.T) {
 		i := NewCreateUserInput(name, email)
 
 		if i.Name() != name {
@@ -29,7 +29,7 @@ func TestCreateUserOutput(t *testing.T) {
 	email := "test@test.xxx"
 	user := entity.NewUser(userID, name, email)
 
-	t.Run("should initialize `CreateUserOutput` with expected values", func(t *testing.T) {
+	t.Run("should initialize CreateUserOutput with expected values", func(t *testing.T) {
 		o := NewCreateUserOutput(user)
 
 		if o.user.ID.String() != userID.String() {

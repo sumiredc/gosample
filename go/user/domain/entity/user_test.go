@@ -5,24 +5,24 @@ import (
 	"testing"
 )
 
-func TestNewUser(t *testing.T) {
+func TestUserEntity(t *testing.T) {
 	userID := valueobject.NewUserID()
 	name := "John Doe"
 	email := "sample@test.xxx"
 
-	t.Run("Make to user entity instance", func(t *testing.T) {
+	t.Run("should initialize User with expected values", func(t *testing.T) {
 		user := NewUser(userID, name, email)
 
-		if userID.Value().String() != user.ID.Value().String() {
-			t.Errorf("don't match `userID` [expected: %v, actual: %v]", userID.Value(), user.ID.Value())
+		if user.ID.String() != userID.String() {
+			t.Errorf("ID missmatch: expected %q, but got %q", userID.String(), user.ID.String())
 		}
 
-		if name != user.Name {
-			t.Errorf("don't match `name` [expected: %v, actual: %v]", name, user.Name)
+		if user.Name != name {
+			t.Errorf("Name missmatch: expected %q, but got %q", name, user.Name)
 		}
 
-		if email != user.Email {
-			t.Errorf("don't match `email` [expected: %v, actual: %v]", email, user.Email)
+		if user.Email != email {
+			t.Errorf("Email missmatch: expected %q, but got %q", email, user.Email)
 		}
 	})
 }
