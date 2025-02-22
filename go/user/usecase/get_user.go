@@ -19,7 +19,7 @@ func NewGetUserUseCase(userRepository repository.UserRepository) *GetUserUseCase
 }
 
 func (u *GetUserUseCase) Execute(i dto.GetUserInput) (*dto.GetUserOutput, error) {
-	userID, err := valueobject.ParseUserID(i.UserId())
+	userID, err := valueobject.ParseUserID(i.UserID())
 
 	if err != nil {
 		return nil, errors.Join(errkit.ErrBadRequest, err)

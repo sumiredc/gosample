@@ -12,7 +12,7 @@ func NewGetUserInput(userID string) *GetUserInput {
 	}
 }
 
-func (i *GetUserInput) UserId() string {
+func (i *GetUserInput) UserID() string {
 	return i.userID
 }
 

@@ -14,7 +14,7 @@ func NewUpdateUserInput(userID, name, email string) *UpdateUserInput {
 	}
 }
 
-func (i *UpdateUserInput) UserId() string {
+func (i *UpdateUserInput) UserID() string {
 	return i.userID
 }
 

@@ -10,7 +10,7 @@ func NewDeleteUserInput(userID string) *DeleteUserInput {
 	}
 }
 
-func (i *DeleteUserInput) UserId() string {
+func (i *DeleteUserInput) UserID() string {
 	return i.userID
 }
 
