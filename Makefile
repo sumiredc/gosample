@@ -11,3 +11,6 @@ test:
 
 coverage:
 	docker compose run --rm go go test -cover ./...
+
+coverage-detail:
+	docker compose run --rm go bash -c "go test ./... -covermode=atomic -coverprofile=coverage.out && go tool cover -func=coverage.out > coverage.atomic.out"

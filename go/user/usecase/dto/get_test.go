@@ -26,9 +26,10 @@ func TestGetUserOutput(t *testing.T) {
 
 	t.Run("should initialize GetUserOutput with expected values", func(t *testing.T) {
 		o := NewGetUserOutput(user)
+		u := o.User()
 
-		if o.user.ID.String() != userID.String() {
-			t.Errorf("UserID missmatch: expected %q, but got %q", userID.String(), o.user.ID.String())
+		if u.ID.String() != userID.String() {
+			t.Errorf("UserID missmatch: expected %q, but got %q", userID.String(), u.ID.String())
 		}
 	})
 }
