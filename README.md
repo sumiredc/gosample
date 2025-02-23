@@ -11,7 +11,7 @@
 #### Http Handler
 Bind request params
 
-#### Usecase
+#### UseCase
 Business logics
 
 #### 🏃‍♂️ Run

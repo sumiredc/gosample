@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-func TestDeleteUserUsecase(t *testing.T) {
+func TestDeleteUserUseCase(t *testing.T) {
 	t.Run("should delete a user successfully", func(t *testing.T) {
 		userID := valueobject.NewUserID()
 

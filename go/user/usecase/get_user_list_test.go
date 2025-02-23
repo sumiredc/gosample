@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-func TestGetUserListUsecase(t *testing.T) {
+func TestGetUserListUseCase(t *testing.T) {
 	t.Run("should get users successfully", func(t *testing.T) {
 		expected := 5
 		var users []*entity.User
