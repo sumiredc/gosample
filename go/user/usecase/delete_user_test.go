@@ -31,7 +31,7 @@ func TestDeleteUserUseCase(t *testing.T) {
 		userID := valueobject.NewUserID()
 
 		mRepo := new(mockrepository.MockUserRepository)
-		mRepo.On("Delete", userID).Return(errors.New("Failed to delete user"))
+		mRepo.On("Delete", userID).Return(errors.New("failed to delete user"))
 
 		i := dto.NewDeleteUserInput(userID.String())
 		u := usecase.NewDeleteUserUseCase(mRepo)

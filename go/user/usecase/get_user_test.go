@@ -41,7 +41,7 @@ func TestGetUserUseCase(t *testing.T) {
 		userID := valueobject.NewUserID()
 
 		mRepo := new(mockrepository.MockUserRepository)
-		mRepo.On("Get", userID).Return(nil, errors.New("Failed to get a user"))
+		mRepo.On("Get", userID).Return(nil, errors.New("failed to get a user"))
 
 		i := dto.NewGetUserInput(userID.String())
 		u := usecase.NewGetUserUseCase(mRepo)

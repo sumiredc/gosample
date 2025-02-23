@@ -45,7 +45,7 @@ func TestGetUserListUseCase(t *testing.T) {
 
 	t.Run("should return to error", func(t *testing.T) {
 		mRepo := new(mockrepository.MockUserRepository)
-		mRepo.On("List").Return(nil, errors.New("Failed to get user list"))
+		mRepo.On("List").Return(nil, errors.New("failed to get user list"))
 
 		i := dto.NewGetUserListInput()
 		u := usecase.NewGetUserListUseCase(mRepo)

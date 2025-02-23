@@ -45,7 +45,7 @@ func TestCreateUserUseCase(t *testing.T) {
 
 	t.Run("should return to error", func(t *testing.T) {
 		mRepo := new(mockrepository.MockUserRepository)
-		mRepo.On("Create", mock.Anything).Return(nil, errors.New("Failed to create user"))
+		mRepo.On("Create", mock.Anything).Return(nil, errors.New("failed to create user"))
 
 		i := dto.NewCreateUserInput("name", "email")
 		u := usecase.NewCreateUserUseCase(mRepo)
