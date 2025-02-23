@@ -13,11 +13,23 @@ type MockUserRepository struct {
 }
 
 func (m *MockUserRepository) List() ([]*entity.User, error) {
-	return nil, nil
+	args := m.Called()
+
+	if args.Get(0) != nil {
+		return args.Get(0).([]*entity.User), args.Error(1)
+	}
+
+	return nil, args.Error(1)
 }
 
 func (m *MockUserRepository) Get(id valueobject.UserID) (*entity.User, error) {
-	return nil, nil
+	args := m.Called(id)
+
+	if args.Get(0) != nil {
+		return args.Get(0).(*entity.User), args.Error(1)
+	}
+
+	return nil, args.Error(1)
 }
 
 func (m *MockUserRepository) Create(u *model.User) (*entity.User, error) {
