@@ -26,7 +26,7 @@ func NewDeleteUserController(r *request.DeleteUserRequest, ur repository.UserRep
 func (c *DeleteUserController) Run(userID string) (response.StatusCode, response.Response, error) {
 	i := dto.NewDeleteUserInput(userID)
 	u := usecase.NewDeleteUserUseCase(c.userRepository)
-	_, err := u.Execute(*i)
+	_, err := u.Execute(i)
 
 	if errors.Is(err, errkit.ErrNotFound) {
 		return http.StatusNotFound, nil, err

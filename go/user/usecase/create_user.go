@@ -17,7 +17,7 @@ func NewCreateUserUseCase(userRepository repository.UserRepository) *CreateUserU
 	}
 }
 
-func (u *CreateUserUseCase) Execute(i dto.CreateUserInput) (*dto.CreateUserOutput, error) {
+func (u *CreateUserUseCase) Execute(i *dto.CreateUserInput) (*dto.CreateUserOutput, error) {
 	userID := valueobject.NewUserID()
 	m := model.NewUser(userID, i.Name(), i.Email())
 
@@ -27,7 +27,7 @@ func (u *CreateUserUseCase) Execute(i dto.CreateUserInput) (*dto.CreateUserOutpu
 		return nil, err
 	}
 
-	o := dto.NewCreateUserOutput(*user)
+	o := dto.NewCreateUserOutput(user)
 
 	return o, nil
 }

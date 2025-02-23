@@ -10,15 +10,15 @@ func NewGetUserListInput() *GetUserListInput {
 }
 
 type GetUserListOutput struct {
-	users []entity.User
+	users []*entity.User
 }
 
-func NewGetUserListOutput(users []entity.User) *GetUserListOutput {
+func NewGetUserListOutput(users []*entity.User) *GetUserListOutput {
 	return &GetUserListOutput{
 		users: users,
 	}
 }
 
-func (o *GetUserListOutput) Users() []entity.User {
+func (o *GetUserListOutput) Users() []*entity.User {
 	return o.users
 }

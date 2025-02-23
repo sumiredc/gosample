@@ -12,7 +12,7 @@ type MockUserRepository struct {
 	mock.Mock
 }
 
-func (m *MockUserRepository) List() ([]entity.User, error) {
+func (m *MockUserRepository) List() ([]*entity.User, error) {
 	return nil, nil
 }
 

@@ -17,15 +17,15 @@ func (i *GetUserInput) UserID() string {
 }
 
 type GetUserOutput struct {
-	user entity.User
+	user *entity.User
 }
 
-func NewGetUserOutput(user entity.User) *GetUserOutput {
+func NewGetUserOutput(user *entity.User) *GetUserOutput {
 	return &GetUserOutput{
 		user: user,
 	}
 }
 
-func (o *GetUserOutput) User() entity.User {
+func (o *GetUserOutput) User() *entity.User {
 	return o.user
 }

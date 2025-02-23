@@ -19,7 +19,7 @@ func TestGetUserListInput(t *testing.T) {
 
 func TestGetUserListOutput(t *testing.T) {
 	expected := 5
-	var users []entity.User
+	var users []*entity.User
 
 	for i := 0; i < expected; i++ {
 		userID := valueobject.NewUserID()

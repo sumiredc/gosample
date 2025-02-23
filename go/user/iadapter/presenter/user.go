@@ -5,7 +5,7 @@ import (
 	"sample/user/iadapter/response"
 )
 
-func (*Presenter) User(user entity.User) response.Response {
+func (*Presenter) User(user *entity.User) response.Response {
 	return &response.UserResponse{
 		User: user,
 	}

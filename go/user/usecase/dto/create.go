@@ -23,15 +23,15 @@ func (i *CreateUserInput) Email() string {
 }
 
 type CreateUserOutput struct {
-	user entity.User
+	user *entity.User
 }
 
-func NewCreateUserOutput(user entity.User) *CreateUserOutput {
+func NewCreateUserOutput(user *entity.User) *CreateUserOutput {
 	return &CreateUserOutput{
 		user: user,
 	}
 }
 
-func (o *CreateUserOutput) User() entity.User {
+func (o *CreateUserOutput) User() *entity.User {
 	return o.user
 }

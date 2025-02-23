@@ -19,7 +19,7 @@ func NewUpdateUserUseCase(userRepository repository.UserRepository) *UpdateUserU
 	}
 }
 
-func (u *UpdateUserUseCase) Execute(i dto.UpdateUserInput) (*dto.UpdateUserOutput, error) {
+func (u *UpdateUserUseCase) Execute(i *dto.UpdateUserInput) (*dto.UpdateUserOutput, error) {
 	userID, err := valueobject.ParseUserID(i.UserID())
 
 	if err != nil {

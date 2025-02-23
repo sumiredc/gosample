@@ -15,7 +15,7 @@ func NewGetUserListUseCase(userRepository repository.UserRepository) *GetUserLis
 	}
 }
 
-func (u *GetUserListUseCase) Execute(i dto.GetUserListInput) (*dto.GetUserListOutput, error) {
+func (u *GetUserListUseCase) Execute(i *dto.GetUserListInput) (*dto.GetUserListOutput, error) {
 	users, err := u.userRepository.List()
 
 	if err != nil {

@@ -22,9 +22,9 @@ func NewUserRepository(w, r *gorm.DB) *UserRepositoryImpl {
 	}
 }
 
-func (repo *UserRepositoryImpl) List() ([]entity.User, error) {
-	models := make([]model.User, 0)
-	users := make([]entity.User, 0)
+func (repo *UserRepositoryImpl) List() ([]*entity.User, error) {
+	models := make([]*model.User, 0)
+	users := make([]*entity.User, 0)
 
 	err := repo.Reader.Model(&model.User{}).Find(&models).Error
 
@@ -46,7 +46,7 @@ func (repo *UserRepositoryImpl) List() ([]entity.User, error) {
 }
 
 func (repo *UserRepositoryImpl) Get(id valueobject.UserID) (*entity.User, error) {
-	var m model.User
+	var m *model.User
 
 	err := repo.Reader.First(&m, "id = ?", id.Value().String()).Error
 
@@ -60,7 +60,7 @@ func (repo *UserRepositoryImpl) Get(id valueobject.UserID) (*entity.User, error)
 
 	user := entity.NewUser(id, m.Name, m.Email)
 
-	return &user, nil
+	return user, nil
 }
 
 func (repo *UserRepositoryImpl) Create(m *model.User) (*entity.User, error) {
@@ -78,7 +78,7 @@ func (repo *UserRepositoryImpl) Create(m *model.User) (*entity.User, error) {
 
 	user := entity.NewUser(*userID, m.Name, m.Email)
 
-	return &user, nil
+	return user, nil
 }
 
 func (repo *UserRepositoryImpl) Update(m *model.User) error {

@@ -7,7 +7,7 @@ import (
 )
 
 type UserRepository interface {
-	List() ([]entity.User, error)
+	List() ([]*entity.User, error)
 	Get(id valueobject.UserID) (*entity.User, error)
 	Create(u *model.User) (*entity.User, error)
 	Update(u *model.User) error

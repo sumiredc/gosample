@@ -18,7 +18,7 @@ func NewGetUserUseCase(userRepository repository.UserRepository) *GetUserUseCase
 	}
 }
 
-func (u *GetUserUseCase) Execute(i dto.GetUserInput) (*dto.GetUserOutput, error) {
+func (u *GetUserUseCase) Execute(i *dto.GetUserInput) (*dto.GetUserOutput, error) {
 	userID, err := valueobject.ParseUserID(i.UserID())
 
 	if err != nil {
@@ -31,7 +31,7 @@ func (u *GetUserUseCase) Execute(i dto.GetUserInput) (*dto.GetUserOutput, error)
 		return nil, err
 	}
 
-	o := dto.NewGetUserOutput(*user)
+	o := dto.NewGetUserOutput(user)
 
 	return o, nil
 }

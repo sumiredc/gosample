@@ -14,17 +14,17 @@ import (
 
 func TestCreateUserUseCase(t *testing.T) {
 	t.Run("should create a user successfully", func(t *testing.T) {
-		mRepo := new(repository.MockUserRepository)
 		userID := valueobject.NewUserID()
 		name := "test name"
 		email := "test@test.xxx"
 		eUser := entity.NewUser(userID, name, email)
 
-		mRepo.On("Create", mock.Anything).Return(&eUser, nil)
+		mRepo := new(repository.MockUserRepository)
+		mRepo.On("Create", mock.Anything).Return(eUser, nil)
 
 		i := dto.NewCreateUserInput(name, email)
 		u := usecase.NewCreateUserUseCase(mRepo)
-		o, err := u.Execute(*i)
+		o, err := u.Execute(i)
 
 		user := o.User()
 
@@ -47,7 +47,7 @@ func TestCreateUserUseCase(t *testing.T) {
 
 		i := dto.NewCreateUserInput("name", "email")
 		u := usecase.NewCreateUserUseCase(mRepo)
-		_, err := u.Execute(*i)
+		_, err := u.Execute(i)
 
 		if err == nil {
 			t.Errorf("failed to return not error")

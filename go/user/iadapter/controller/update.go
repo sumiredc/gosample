@@ -32,7 +32,7 @@ func (c *UpdateUserController) Run(userID string) (response.StatusCode, response
 
 	i := dto.NewUpdateUserInput(userID, c.request.Name, c.request.Email)
 	u := usecase.NewUpdateUserUseCase(c.userRepository)
-	_, err := u.Execute(*i)
+	_, err := u.Execute(i)
 
 	if err != nil {
 		return http.StatusInternalServerError, nil, err
