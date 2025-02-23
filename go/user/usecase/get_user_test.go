@@ -4,8 +4,8 @@ import (
 	"errors"
 	"sample/user/domain/entity"
 	"sample/user/domain/errkit"
+	"sample/user/domain/repository/testdata"
 	"sample/user/domain/valueobject"
-	"sample/user/internal/mockrepository"
 	"sample/user/usecase"
 	"sample/user/usecase/dto"
 	"testing"
@@ -18,7 +18,7 @@ func TestGetUserUseCase(t *testing.T) {
 		email := "test@test.xxx"
 		eUser := entity.NewUser(userID, name, email)
 
-		mRepo := new(mockrepository.MockUserRepository)
+		mRepo := new(testdata.MockUserRepository)
 		mRepo.On("Get", userID).Return(eUser, nil)
 
 		i := dto.NewGetUserInput(userID.String())
@@ -41,7 +41,7 @@ func TestGetUserUseCase(t *testing.T) {
 	t.Run("should return to failed to parse UserID error", func(t *testing.T) {
 		userID := "NO-ULID"
 
-		mRepo := new(mockrepository.MockUserRepository)
+		mRepo := new(testdata.MockUserRepository)
 
 		i := dto.NewGetUserInput(userID)
 		u := usecase.NewGetUserUseCase(mRepo)
@@ -61,7 +61,7 @@ func TestGetUserUseCase(t *testing.T) {
 	t.Run("should return to failed to get error", func(t *testing.T) {
 		userID := valueobject.NewUserID()
 
-		mRepo := new(mockrepository.MockUserRepository)
+		mRepo := new(testdata.MockUserRepository)
 		mRepo.On("Get", userID).Return(nil, errors.New("failed to get a user"))
 
 		i := dto.NewGetUserInput(userID.String())

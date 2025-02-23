@@ -3,8 +3,8 @@ package usecase_test
 import (
 	"errors"
 	"sample/user/domain/errkit"
+	"sample/user/domain/repository/testdata"
 	"sample/user/domain/valueobject"
-	"sample/user/internal/mockrepository"
 	"sample/user/usecase"
 	"sample/user/usecase/dto"
 	"testing"
@@ -18,7 +18,7 @@ func TestUpdateUserUseCase(t *testing.T) {
 		name := "test name"
 		email := "test@test.xxx"
 
-		mRepo := new(mockrepository.MockUserRepository)
+		mRepo := new(testdata.MockUserRepository)
 		mRepo.On("Update", mock.Anything).Return(nil)
 
 		i := dto.NewUpdateUserInput(userID.String(), name, email)
@@ -37,7 +37,7 @@ func TestUpdateUserUseCase(t *testing.T) {
 		name := "test name"
 		email := "test@test.xxx"
 
-		mRepo := new(mockrepository.MockUserRepository)
+		mRepo := new(testdata.MockUserRepository)
 
 		i := dto.NewUpdateUserInput(userID, name, email)
 		u := usecase.NewUpdateUserUseCase(mRepo)
@@ -55,7 +55,7 @@ func TestUpdateUserUseCase(t *testing.T) {
 	})
 
 	t.Run("should return to failed to update error", func(t *testing.T) {
-		mRepo := new(mockrepository.MockUserRepository)
+		mRepo := new(testdata.MockUserRepository)
 		mRepo.On("Update", mock.Anything).Return(errors.New("failed to update user"))
 
 		userID := valueobject.NewUserID()

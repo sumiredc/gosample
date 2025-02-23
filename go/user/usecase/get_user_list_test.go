@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"sample/user/domain/entity"
+	"sample/user/domain/repository/testdata"
 	"sample/user/domain/valueobject"
-	"sample/user/internal/mockrepository"
 	"sample/user/usecase"
 	"sample/user/usecase/dto"
 	"testing"
@@ -25,7 +25,7 @@ func TestGetUserListUseCase(t *testing.T) {
 			users = append(users, user)
 		}
 
-		mRepo := new(mockrepository.MockUserRepository)
+		mRepo := new(testdata.MockUserRepository)
 		mRepo.On("List").Return(users, nil)
 
 		i := dto.NewGetUserListInput()
@@ -44,7 +44,7 @@ func TestGetUserListUseCase(t *testing.T) {
 	})
 
 	t.Run("should return to error", func(t *testing.T) {
-		mRepo := new(mockrepository.MockUserRepository)
+		mRepo := new(testdata.MockUserRepository)
 		mRepo.On("List").Return(nil, errors.New("failed to get user list"))
 
 		i := dto.NewGetUserListInput()

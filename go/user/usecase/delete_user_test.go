@@ -3,8 +3,8 @@ package usecase_test
 import (
 	"errors"
 	"sample/user/domain/errkit"
+	"sample/user/domain/repository/testdata"
 	"sample/user/domain/valueobject"
-	"sample/user/internal/mockrepository"
 	"sample/user/usecase"
 	"sample/user/usecase/dto"
 	"testing"
@@ -14,7 +14,7 @@ func TestDeleteUserUseCase(t *testing.T) {
 	t.Run("should delete a user successfully", func(t *testing.T) {
 		userID := valueobject.NewUserID()
 
-		mRepo := new(mockrepository.MockUserRepository)
+		mRepo := new(testdata.MockUserRepository)
 		mRepo.On("Delete", userID).Return(nil)
 
 		i := dto.NewDeleteUserInput(userID.String())
@@ -31,7 +31,7 @@ func TestDeleteUserUseCase(t *testing.T) {
 	t.Run("should return to failed to parse UserID error", func(t *testing.T) {
 		userID := "NO-ULID"
 
-		mRepo := new(mockrepository.MockUserRepository)
+		mRepo := new(testdata.MockUserRepository)
 
 		i := dto.NewDeleteUserInput(userID)
 		u := usecase.NewDeleteUserUseCase(mRepo)
@@ -51,7 +51,7 @@ func TestDeleteUserUseCase(t *testing.T) {
 	t.Run("should return to failed to delete error", func(t *testing.T) {
 		userID := valueobject.NewUserID()
 
-		mRepo := new(mockrepository.MockUserRepository)
+		mRepo := new(testdata.MockUserRepository)
 		mRepo.On("Delete", userID).Return(errors.New("failed to delete user"))
 
 		i := dto.NewDeleteUserInput(userID.String())
