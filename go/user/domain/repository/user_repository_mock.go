@@ -31,9 +31,13 @@ func (m *MockUserRepository) Create(u *model.User) (*entity.User, error) {
 }
 
 func (m *MockUserRepository) Update(u *model.User) error {
-	return nil
+	args := m.Called(u)
+
+	return args.Error(0)
 }
 
 func (m *MockUserRepository) Delete(id valueobject.UserID) error {
-	return nil
+	args := m.Called(id)
+
+	return args.Error(0)
 }
