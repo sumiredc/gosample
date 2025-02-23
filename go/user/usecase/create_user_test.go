@@ -39,6 +39,8 @@ func TestCreateUserUseCase(t *testing.T) {
 		if user.Email != email {
 			t.Errorf("user email in Output missmatch: expected %q, but got %q", email, user.Email)
 		}
+
+		mRepo.AssertNumberOfCalls(t, "Create", 1)
 	})
 
 	t.Run("should return to Error", func(t *testing.T) {
@@ -52,5 +54,7 @@ func TestCreateUserUseCase(t *testing.T) {
 		if err == nil {
 			t.Errorf("failed to return not error")
 		}
+
+		mRepo.AssertNumberOfCalls(t, "Create", 1)
 	})
 }
