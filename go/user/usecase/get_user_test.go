@@ -37,7 +37,7 @@ func TestGetUserUseCase(t *testing.T) {
 		mRepo.AssertNumberOfCalls(t, "Get", 1)
 	})
 
-	t.Run("should return to Error", func(t *testing.T) {
+	t.Run("should return to error", func(t *testing.T) {
 		userID := valueobject.NewUserID()
 
 		mRepo := new(mockrepository.MockUserRepository)

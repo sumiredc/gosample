@@ -43,7 +43,7 @@ func TestCreateUserUseCase(t *testing.T) {
 		mRepo.AssertNumberOfCalls(t, "Create", 1)
 	})
 
-	t.Run("should return to Error", func(t *testing.T) {
+	t.Run("should return to error", func(t *testing.T) {
 		mRepo := new(mockrepository.MockUserRepository)
 		mRepo.On("Create", mock.Anything).Return(nil, errors.New("Failed to create user"))
 

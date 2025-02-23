@@ -43,7 +43,7 @@ func TestGetUserListUseCase(t *testing.T) {
 		mRepo.AssertNumberOfCalls(t, "List", 1)
 	})
 
-	t.Run("should return to Error", func(t *testing.T) {
+	t.Run("should return to error", func(t *testing.T) {
 		mRepo := new(mockrepository.MockUserRepository)
 		mRepo.On("List").Return(nil, errors.New("Failed to get user list"))
 
