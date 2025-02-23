@@ -2,6 +2,7 @@ package usecase_test
 
 import (
 	"errors"
+	"sample/user/domain/errkit"
 	"sample/user/domain/valueobject"
 	"sample/user/internal/mockrepository"
 	"sample/user/usecase"
@@ -31,7 +32,29 @@ func TestUpdateUserUseCase(t *testing.T) {
 		mRepo.AssertNumberOfCalls(t, "Update", 1)
 	})
 
-	t.Run("should return to error", func(t *testing.T) {
+	t.Run("should return to failed to parse UserID error", func(t *testing.T) {
+		userID := "NO-ULID"
+		name := "test name"
+		email := "test@test.xxx"
+
+		mRepo := new(mockrepository.MockUserRepository)
+
+		i := dto.NewUpdateUserInput(userID, name, email)
+		u := usecase.NewUpdateUserUseCase(mRepo)
+		_, err := u.Execute(i)
+
+		if err == nil {
+			t.Errorf("failed to return not error")
+		}
+
+		if !errors.Is(err, errkit.ErrMissingParameter) {
+			t.Errorf("err missmatch: %v", err)
+		}
+
+		mRepo.AssertNumberOfCalls(t, "Update", 0)
+	})
+
+	t.Run("should return to failed to update error", func(t *testing.T) {
 		mRepo := new(mockrepository.MockUserRepository)
 		mRepo.On("Update", mock.Anything).Return(errors.New("failed to update user"))
 

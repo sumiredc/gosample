@@ -3,6 +3,7 @@ package usecase_test
 import (
 	"errors"
 	"sample/user/domain/entity"
+	"sample/user/domain/errkit"
 	"sample/user/domain/valueobject"
 	"sample/user/internal/mockrepository"
 	"sample/user/usecase"
@@ -37,7 +38,27 @@ func TestGetUserUseCase(t *testing.T) {
 		mRepo.AssertNumberOfCalls(t, "Get", 1)
 	})
 
-	t.Run("should return to error", func(t *testing.T) {
+	t.Run("should return to failed to parse UserID error", func(t *testing.T) {
+		userID := "NO-ULID"
+
+		mRepo := new(mockrepository.MockUserRepository)
+
+		i := dto.NewGetUserInput(userID)
+		u := usecase.NewGetUserUseCase(mRepo)
+		_, err := u.Execute(i)
+
+		if err == nil {
+			t.Errorf("failed to return not error")
+		}
+
+		if !errors.Is(err, errkit.ErrMissingParameter) {
+			t.Errorf("err missmatch: %v", err)
+		}
+
+		mRepo.AssertNumberOfCalls(t, "Get", 0)
+	})
+
+	t.Run("should return to failed to get error", func(t *testing.T) {
 		userID := valueobject.NewUserID()
 
 		mRepo := new(mockrepository.MockUserRepository)
