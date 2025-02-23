@@ -2,6 +2,8 @@ package valueobject
 
 import (
 	"encoding/json"
+	"errors"
+	"sample/user/domain/errkit"
 
 	"github.com/oklog/ulid/v2"
 )
@@ -22,7 +24,7 @@ func ParseUserID(v string) (*UserID, error) {
 	id, err := ulid.Parse(v)
 
 	if err != nil {
-		return nil, err
+		return nil, errors.Join(errkit.ErrMissingParameter, err)
 	}
 
 	return &UserID{v: id}, nil

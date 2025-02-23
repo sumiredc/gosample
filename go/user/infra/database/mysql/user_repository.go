@@ -36,7 +36,7 @@ func (repo *UserRepositoryImpl) List() ([]*entity.User, error) {
 		userID, err := valueobject.ParseUserID(m.ID)
 
 		if err != nil {
-			return nil, errors.Join(errkit.ErrInternalServer, err)
+			return nil, err
 		}
 
 		users = append(users, entity.NewUser(*userID, m.Name, m.Email))
@@ -73,7 +73,7 @@ func (repo *UserRepositoryImpl) Create(m *model.User) (*entity.User, error) {
 	userID, err := valueobject.ParseUserID(m.ID)
 
 	if err != nil {
-		return nil, errors.Join(errkit.ErrInternalServer, err)
+		return nil, err
 	}
 
 	user := entity.NewUser(*userID, m.Name, m.Email)

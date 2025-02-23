@@ -1,8 +1,6 @@
 package usecase
 
 import (
-	"errors"
-	"sample/user/domain/errkit"
 	"sample/user/domain/model"
 	"sample/user/domain/repository"
 	"sample/user/domain/valueobject"
@@ -23,7 +21,7 @@ func (u *UpdateUserUseCase) Execute(i *dto.UpdateUserInput) (*dto.UpdateUserOutp
 	userID, err := valueobject.ParseUserID(i.UserID())
 
 	if err != nil {
-		return nil, errors.Join(errkit.ErrBadRequest, err)
+		return nil, err
 	}
 
 	m := model.NewUser(*userID, i.Name(), i.Email())

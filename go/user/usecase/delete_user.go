@@ -1,8 +1,6 @@
 package usecase
 
 import (
-	"errors"
-	"sample/user/domain/errkit"
 	"sample/user/domain/repository"
 	"sample/user/domain/valueobject"
 	"sample/user/usecase/dto"
@@ -21,7 +19,7 @@ func NewDeleteUserUseCase(userRepository repository.UserRepository) *DeleteUserU
 func (u *DeleteUserUseCase) Execute(i *dto.DeleteUserInput) (*dto.DeleteUserOutput, error) {
 	userID, err := valueobject.ParseUserID(i.UserID())
 	if err != nil {
-		return nil, errors.Join(errkit.ErrBadRequest, err)
+		return nil, err
 	}
 
 	if err := u.userRepository.Delete(*userID); err != nil {

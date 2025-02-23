@@ -1,8 +1,6 @@
 package usecase
 
 import (
-	"errors"
-	"sample/user/domain/errkit"
 	"sample/user/domain/repository"
 	"sample/user/domain/valueobject"
 	"sample/user/usecase/dto"
@@ -22,7 +20,7 @@ func (u *GetUserUseCase) Execute(i *dto.GetUserInput) (*dto.GetUserOutput, error
 	userID, err := valueobject.ParseUserID(i.UserID())
 
 	if err != nil {
-		return nil, errors.Join(errkit.ErrBadRequest, err)
+		return nil, err
 	}
 
 	user, err := u.userRepository.Get(*userID)
