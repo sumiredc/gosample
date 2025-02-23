@@ -3,8 +3,8 @@ package usecase_test
 import (
 	"errors"
 	"sample/user/domain/entity"
-	"sample/user/domain/repository"
 	"sample/user/domain/valueobject"
+	"sample/user/internal/mockrepository"
 	"sample/user/usecase"
 	"sample/user/usecase/dto"
 	"testing"
@@ -19,7 +19,7 @@ func TestCreateUserUseCase(t *testing.T) {
 		email := "test@test.xxx"
 		eUser := entity.NewUser(userID, name, email)
 
-		mRepo := new(repository.MockUserRepository)
+		mRepo := new(mockrepository.MockUserRepository)
 		mRepo.On("Create", mock.Anything).Return(eUser, nil)
 
 		i := dto.NewCreateUserInput(name, email)
@@ -44,7 +44,7 @@ func TestCreateUserUseCase(t *testing.T) {
 	})
 
 	t.Run("should return to Error", func(t *testing.T) {
-		mRepo := new(repository.MockUserRepository)
+		mRepo := new(mockrepository.MockUserRepository)
 		mRepo.On("Create", mock.Anything).Return(nil, errors.New("Failed to create user"))
 
 		i := dto.NewCreateUserInput("name", "email")

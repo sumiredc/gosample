@@ -1,4 +1,4 @@
-package repository
+package mockrepository
 
 import (
 	"sample/user/domain/entity"
