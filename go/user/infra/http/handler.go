@@ -18,8 +18,7 @@ func getUserList(c echo.Context) error {
 		return jsonResponse(c, http.StatusBadRequest, nil)
 	}
 
-	ctx := c.Request().Context()
-	userRepo := ctx.Value(context.UserRepository).(repository.UserRepository)
+	userRepo := c.Get(context.UserRepository).(repository.UserRepository)
 	con := controller.NewGetUserListController(req, userRepo)
 
 	// TODO: Error handling
@@ -36,8 +35,7 @@ func getUser(c echo.Context) error {
 	}
 
 	userID := c.Param("user_id")
-	ctx := c.Request().Context()
-	userRepo := ctx.Value(context.UserRepository).(repository.UserRepository)
+	userRepo := c.Get(context.UserRepository).(repository.UserRepository)
 	con := controller.NewGetUserController(req, userRepo)
 
 	// TODO: Error handling
@@ -53,9 +51,8 @@ func createUser(c echo.Context) error {
 		return jsonResponse(c, http.StatusBadRequest, nil)
 	}
 
-	ctx := c.Request().Context()
-	userRepo := ctx.Value(context.UserRepository).(repository.UserRepository)
-	vali := ctx.Value(context.Validator).(*validator.Validate)
+	userRepo := c.Get(context.UserRepository).(repository.UserRepository)
+	vali := c.Get(context.Validator).(*validator.Validate)
 	con := controller.NewCreateUserController(vali, req, userRepo)
 
 	// TODO: Error handling
@@ -72,9 +69,8 @@ func updateUser(c echo.Context) error {
 	}
 
 	userID := c.Param("user_id")
-	ctx := c.Request().Context()
-	userRepo := ctx.Value(context.UserRepository).(repository.UserRepository)
-	vali := ctx.Value(context.Validator).(*validator.Validate)
+	userRepo := c.Get(context.UserRepository).(repository.UserRepository)
+	vali := c.Get(context.Validator).(*validator.Validate)
 	con := controller.NewUpdateUserController(vali, req, userRepo)
 
 	// TODO: Error handling
@@ -91,8 +87,7 @@ func deleteUser(c echo.Context) error {
 	}
 
 	userID := c.Param("user_id")
-	ctx := c.Request().Context()
-	userRepo := ctx.Value(context.UserRepository).(repository.UserRepository)
+	userRepo := c.Get(context.UserRepository).(repository.UserRepository)
 	con := controller.NewDeleteUserController(req, userRepo)
 
 	code, response, _ := con.Run(userID)

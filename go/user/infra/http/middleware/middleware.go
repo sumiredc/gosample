@@ -11,7 +11,6 @@ func Use(e *echo.Echo) {
 	// echo Logger
 	e.Use(middleware.Logger())
 	// CORS
-	e.Use(middleware.CORS())
 	e.Use(middleware.CORSWithConfig(
 		middleware.CORSConfig{
 			AllowMethods: []string{
@@ -22,6 +21,8 @@ func Use(e *echo.Echo) {
 			},
 			AllowHeaders: []string{
 				echo.HeaderOrigin,
+				echo.HeaderContentType,
+				echo.HeaderAccept,
 			},
 			AllowOrigins: []string{"*"},
 		}))
